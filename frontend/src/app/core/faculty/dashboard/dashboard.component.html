@@ -1,0 +1,139 @@
+<!-- <nav class="navbar navbar-light bg-light justify-content-between">
+    <button type="button" class="btn btn-warning m-2" routerLink="../dashboard" style="visibility: hidden;">Dashboard</button>
+    <form class="form-inline">
+        <button type="button" class="btn btn-secondary m-2" routerLink="../profile">Profile</button>
+        <button type="button" class="btn btn-danger m-2" (click)="_auth.userLogout()">Logout</button>
+    </form>
+</nav> -->
+
+<nav class="navbar navbar-light sticky-top bg-light justify-content-between">
+    <button type="button" class="btn btn-warning m-2" routerLink="../dashboard" style="visibility: hidden;">Dashboard</button>
+    <form class="form-inline">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Profile</button>
+        <!-- Modal -->
+        <button type="button" class="btn btn-danger m-2" (click)="_auth.userLogout()">Logout</button>
+    </form>
+</nav>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content text-center">
+            <div class="modal-header text-center">
+                <h5 class="modal-title" style=" margin-left: 100px; color: black; font-size: x-large;" id="exampleModalLabel">PROFILE INFORMATION</h5>
+                <button type="button" class="" data-bs-dismiss="modal" aria-label="Close">
+                <img src="assets/images/close.jpeg" style="width:15px; height:15;" aria-hidden="true">
+              </button>
+            </div>
+            <h2 style="color: black;">Name: {{_auth.name}}</h2>
+            <h2 style="color: black;">Email: {{_auth.email}}</h2>
+            <h2 style="color: black;">Stream: {{_auth.stream}}</h2>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="bg-transparent" style="margin-right: 5%;" *ngIf=" courses_alloted?.length > 0">
+    <div class=" bg-dark  m-5 p-4">
+        <h1 style="font-size:xxx-large; color:whitesmoke  ">Alloted Courses</h1>
+
+        <div class="container">
+            <div class="row">
+                <div class=" shadow col-3 rounded-3  p-3 m-3" style="background-color: bisque; background-repeat: no-repeat;
+                background-size:cover; color: black;" *ngFor="let course of courses_alloted">
+                    <div style="width:100%; height: 100%;">
+                        <h2 style="border-bottom: 1px solid black;">{{course.id}}</h2>
+                        <h2>{{course.name}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-transparent" style="margin-right: 5%;" *ngIf=" _util.status==='non-filled'">
+    <div class=" bg-dark  m-5 p-4">
+        <h1 style="font-size:xxx-large; color:whitesmoke  ">Choose preferences</h1>
+        <form #subjectPreference="ngForm">
+            <table class="table text-white-50" style="font-size: medium;">
+                <thead style="font-family:fantasy; font-size: large; color: antiquewhite;">
+                    <tr>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Preference1</th>
+                        <th scope="col">Preference2</th>
+                        <th scope="col">Preference3</th>
+                        <th scope="col">Preference4</th>
+                        <th scope="col">Preference5</th>
+                    </tr>
+                </thead>
+                <tbody style="border: 0ch">
+                    <tr *ngFor="let course of _util.courses">
+                        <td>{{course.name}}</td>
+                        <td>
+                            <div class="form-check form-check-inline form">
+                                <input class="form-check-input" ngModel type="radio" name="{{course.id}}" id="inlineRadio1" [value]="1">
+                                <label class="form-check-label" for="inlineRadio1">1st</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" ngModel type="radio" name="{{course.id}}" id="inlineRadio2" [value]="2">
+                                <label class="form-check-label" for="inlineRadio2">2nd</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" ngModel type="radio" name="{{course.id}}" id="inlineRadio3" [value]="3">
+                                <label class="form-check-label" for="inlineRadio3">3rd</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" ngModel type="radio" name="{{course.id}}" id="inlineRadio4" [value]="4">
+                                <label class="form-check-label" for="inlineRadio4">4th</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" ngModel type="radio" name="{{course.id}}" id="inlineRadio5" [value]="5">
+                                <label class="form-check-label" for="inlineRadio5">5th</label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="submit" class="col-12 btn btn-outline-light" value="Submit Preference" (click)="onSubmit(subjectPreference.value)">
+        </form>
+    </div>
+</div>
+
+<div class="bg-transparent" style="margin-right: 5%;" *ngIf="courses_alloted?.length === 0 && _util.status==='filled'">
+    <div class=" bg-dark  m-5 p-4">
+        <h1 style="font-size:xxx-large; color:whitesmoke  ">Preferences</h1>
+        <form #subjectPreference="ngForm">
+            <table class="table text-white-50" style="font-size: medium;">
+                <thead style="font-family:fantasy; font-size: large; color: antiquewhite;">
+                    <tr>
+                        <th scope="col">Course</th>
+                        <th scope="col">Preferences</th>
+
+                    </tr>
+                </thead>
+                <tbody style="border: 0ch">
+                    <tr *ngFor="let course of _util.courses">
+                        <td>{{course.name}}</td>
+                        <td>{{course.preference_value}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="col-6 btn btn-outline-danger" (click)="resetPreferences()">Reset Preferences</button>
+        </form>
+    </div>
+</div>
+
+<!-- <div class="container m-5 p-5 shadow" *ngIf="_util.status==='filled'">
+  <h3>Course ------------- preference value</h3>
+ <div *ngFor="let course of _util.baskets">
+   {{course.name}} -------- {{course.preference_value}}
+ </div>
+</div> -->

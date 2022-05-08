@@ -1,0 +1,19 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { PortalStatusComponent } from 'src/app/shared/portal-status/portal-status.component';
+import { AuthGuard } from './auth.guard';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './profile/profile.component';
+import { TimeGuard } from './time.guard';
+
+const routes: Routes = [{ path: '', redirectTo: 'dashboard' },
+{ path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+{ path: 'portal_status', component: PortalStatusComponent, data: { user_type: 'core_faculty' } },
+{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, TimeGuard] }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class FacultyRoutingModule { }

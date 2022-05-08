@@ -1,0 +1,172 @@
+<!-- <nav class="navbar navbar-light bg-light justify-content-between">
+    <button type="button" class="btn btn-warning m-2" routerLink="../dashboard" style="visibility: hidden;">Dashboard</button>
+    <form class="form-inline">
+        <button type="button" class="btn btn-secondary m-2" routerLink="../profile">Profile</button>
+        <button type="button" class="btn btn-danger m-2" (click)="_auth.userLogout()">Logout</button>
+    </form>
+</nav> -->
+
+<nav class="navbar navbar-light sticky-top bg-light justify-content-between">
+    <button type="button" class="btn btn-warning m-2" routerLink="../dashboard" style="visibility: hidden;">Dashboard</button>
+    <form class="form-inline">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Profile</button>
+        <!-- Modal -->
+        <button type="button" class="btn btn-danger m-2" (click)="_auth.userLogout()">Logout</button>
+    </form>
+</nav>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content text-center">
+            <div class="modal-header text-center">
+                <h5 class="modal-title" style=" margin-left: 100px; color: black; font-size: x-large;" id="exampleModalLabel">PROFILE INFORMATION</h5>
+                <button type="button" class="" data-bs-dismiss="modal" aria-label="Close">
+                <img src="assets/images/close.jpeg" style="width:15px; height:15;" aria-hidden="true">
+              </button>
+            </div>
+            <h2 style="color: black;">Name: {{_auth.name}}</h2>
+            <h2 style="color: black;">Email: {{_auth.email}}</h2>
+            <h2 style="color: black;">Stream: {{_auth.stream}}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="container m-3 p-3 shadow" *ngIf="_util.status === 'buffer'">
+
+    <div class="container m-sm-2 shadow-lg p-3">
+        <div class="card col-11 text-center">
+            <div class="card-header" style="background-color:black;">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <button class="nav-link active" name="assigned" (click)=" menuClicked($event) ">Assigned</button>
+                    </li>
+                    <li class="nav-item ">
+                        <button class="nav-link " name="unassigned" (click)="menuClicked($event) ">Unassigned  </button>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="card-body " style="background-color:white; color: black; ">
+                <div *ngIf="assigned ">
+                    <h1>Assigned</h1>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6" *ngFor="let basket of _util.buffer_baskets">
+                                <div class=" shadow  p-4 m-4" style="background-image:url('assets/images/card.jpeg'); background-repeat: no-repeat;
+                                background-size:cover;" *ngIf="basket.sem_status === 'assigned'">
+
+                                    <h2>Semester: {{basket.semester}}</h2>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h2>Subject</h2>
+                                        </div>
+                                        <div class="col-6">
+                                            <h2>Faculty</h2>
+                                        </div>
+                                    </div>
+                                    <div class="row col" *ngFor="let course of basket.courses">
+                                        <div class="col-6">
+                                            <p>{{course.name}}</p>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <select #selectFaculty class="form-select form-select-sm" aria-label=".form-select-sm example" disabled>
+                                                <option value="course.faculty.id" selected>{{course.faculty.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="mt-4 btn btn-danger" (click)="onReset(basket.semester)">Reset</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <button type="button" class=" col-12 btn btn-dark" (click)="onSubmit()">Submit</button>
+                </div>
+                <div *ngIf="unassigned ">
+                    <h1>Unassigned</h1>
+                    <div class="row">
+                        <div class="col-6" *ngFor="let basket of _util.buffer_baskets">
+
+                            <div class=" shadow  p-4 m-4" style="background-image:url('assets/images/card.jpeg'); background-repeat: no-repeat;
+                            background-size:cover;" *ngIf="basket.sem_status === 'un-assigned'">
+                                <div class="row">
+                                    <h2 class="col-10">Semester: {{basket.semester}}</h2>
+                                    <button type="button" class="col-2 h-50  btn btn-success" (click)="onCreate(selectFaculty.value)"><i class="fa fa-plus"></i></button>
+
+                                </div>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h2>Subject</h2>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h2>Faculty</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form #selectFaculty="ngForm">
+                                    <div *ngFor="let course of basket.courses">
+                                        <div class="row m-1" [ngModelGroup]="course.id">
+                                            <div class="col-lg-6  ">
+                                                <p style="font-size:medium">{{course.name}}</p>
+                                            </div>
+                                            <div class="col-lg-6 ">
+                                                <select ngModel [name]="'faculty_id'" class="form-control form-select-sm" aria-label=".form-select-sm example">
+                                                  <option value="">Select Faculty</option>
+                                                  <option *ngFor="let faculty of getFaculties(course.id)" [ngValue]="faculty.id">
+                                                      {{faculty.name}}
+                                                  </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div *ngIf="_util.status === 'selected'">
+    <h2 class="mt-5" style="font-size: xxx-large; font-weight:500; color: aliceblue;">Assigned faculty details</h2>
+    <div class="container">
+        <h2>Download as CSV <a href="javascript:void(0)" class="my-5 fw-bolder" (click)="downloadCSV(_util.selected_baskets)"><i class="fa fa-download"></i></a></h2>
+        <div class="row">
+            <div class="col-11 shadow  p-4 m-5 bg-light" style="color: black;" *ngFor="let basket of _util.selected_baskets">
+
+                <h1>Semester: {{basket.semester}}</h1>
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Course ID</th>
+                                <th>Course Name</th>
+                                <th>Faculty Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let course of basket.courses">
+                                <td>{{course.id}}</td>
+                                <td>{{course.name}}</td>
+                                <td>{{course.faculty.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div style="text-align: center;"><button type="button" class="m-4 col-6 btn btn-outline-danger" (click)="onCourseFacultyReset()">Reset</button></div>
+        </div>
+        
+    </div>
+    
+</div>

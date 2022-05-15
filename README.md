@@ -2,10 +2,10 @@
 Course portal is a web application meant to help the process of elective allotment, project registration and core allotment for Faculty, Student, HOD &amp; Course Coordinator.
 
 # Requirements
-1. [``` node ```] (https://nodejs.org/en/download/)
-2. [``` npm ```] (https://docs.npmjs.com/cli/v8/configuring-npm/install)
-3. [``` angular cli ```] (https://angular.io/cli)
-4. [``` MySQL ```] (https://dev.mysql.com/downloads/installer/)
+1. [``` node ```](https://nodejs.org/en/download/)
+2. [``` npm ```](https://docs.npmjs.com/cli/v8/configuring-npm/install)
+3. [``` angular cli ```](https://angular.io/cli)
+4. [``` MySQL ```](https://dev.mysql.com/downloads/installer/)
 
 # Steps to run this project in local machine:
 1. Clone this project with ```git clone https://github.com/SHUBHAM-SONI-177/CoursePortal.git```.

@@ -19,7 +19,8 @@ router.use('/core', core);
 router.post('/login', authValidator.loginValidatorSchema, authValidator.loginValidator, login);
 
 router.get('/get_portal_timing', authMiddleware.authValidator, portalSetting.get_portal_timing);
-router.put('/set_portal_timing', authMiddleware.authValidator, portalSetting.set_portal_timing)
+router.put('/set_portal_timing', authMiddleware.authValidator, portalSetting.set_portal_timing);
+router.put('/extend_hod_portal_time', authMiddleware.authValidator, portalSetting.extend_hod_portal_time);
 
 router.get('/fetch_students_from_api_to_db', authMiddleware.authValidator, seed.fetch_students_from_api_to_db);
 module.exports = router;

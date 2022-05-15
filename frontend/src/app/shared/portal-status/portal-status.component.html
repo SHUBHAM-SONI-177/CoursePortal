@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container p-5 m-5">
     <p *ngIf="currTime >= startTime && currTime <= endTime">
         Portal is open.
         <button (click)="logout()">Logout</button>
@@ -9,7 +9,8 @@
     </p>
     <p *ngIf="currTime > endTime">
         Portal closed, please contact with your administrator.
-        <button (click)="logout()">Logout</button>
+        <button *ngIf="isHod" (click)="extendHodPortalTime()">Go to DashBoard</button>
+        <button (click)="logout()" class="text-danger">Logout</button>
     </p>
 
 

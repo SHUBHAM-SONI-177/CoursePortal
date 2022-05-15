@@ -20,6 +20,10 @@ export class TimeGuard implements CanActivate {
         let currTime = new Date().getTime();
         let startTime = new Date(res.start_time).getTime();
         let endTime = new Date(res.end_time).getTime();
+        console.log(startTime)
+        console.log(endTime)
+        console.log(currTime)
+
 
         if (currTime >= startTime && currTime <= endTime) {
           return true;

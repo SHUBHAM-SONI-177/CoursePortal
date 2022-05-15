@@ -13,6 +13,7 @@ export class PortalStatusComponent implements OnInit {
   public currTime!: any;
   public startTime!: any;
   public endTime!: any;
+  public isHod!: boolean;
 
   constructor(private actroute: ActivatedRoute, private _util: UtilService, private router: Router) { }
 
@@ -21,10 +22,13 @@ export class PortalStatusComponent implements OnInit {
   ngOnInit(): void {
     this.actroute.data.subscribe(
       data => {
-        this.userType = data['user_type'];
+          this.userType = data['user_type'];
+          if(this.userType == 'elective_hod' || this.userType == 'core_hod'){
+            this.isHod = true;
+          }
       }
     )
-
+    
     this.getPortalTiming();
   }
 
@@ -73,7 +77,20 @@ export class PortalStatusComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-
+  extendHodPortalTime(){
+    let timestamp = new Date().getTime() + 24*60*60*1000;
+    let newEndTime =  new Date(timestamp)
+    this._util.extend_hod_portal_time(this.userType, newEndTime).subscribe(
+      res => {
+        if(this.userType == 'elective_hod')
+        this.router.navigate(['elective/hod/dashboard'])
+        else if(this.userType == 'core_hod'){
+        this.router.navigate(['core/hod/dashboard'])
+        }
+      },
+      err => console.log(err)
+    )
+  }
 
 
   /* if(res[i].user_type==='elective_cc') {

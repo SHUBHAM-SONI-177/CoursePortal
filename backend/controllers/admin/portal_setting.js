@@ -52,3 +52,18 @@ module.exports.get_portal_timing = async (req, res) => {
 
     return res.status(200).json(data);
 }
+
+module.exports.extend_hod_portal_time = async (req, res) => {
+    let userType = req.body.user_type;
+    let endTime = req.body.end_time;
+
+    if(!userType || !endTime) {
+        return res.status(400).json("invalid request!");
+    }
+    
+    await sequelize.query(`UPDATE portal_status SET end_time='${endTime}'
+            WHERE user_type='${userType}'`, {type: Sequelize.QueryTypes.UPDATE});
+    
+    return res.status(200).json("portal time all set!");
+}
+

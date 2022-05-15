@@ -78,7 +78,18 @@ export class PortalStatusComponent implements OnInit {
   }
 
   extendHodPortalTime(){
-    
+    let timestamp = new Date().getTime() + 24*60*60*1000;
+    let newEndTime =  new Date(timestamp)
+    this._util.extend_hod_portal_time(this.userType, newEndTime).subscribe(
+      res => {
+        if(this.userType == 'elective_hod')
+        this.router.navigate(['elective/hod/dashboard'])
+        else if(this.userType == 'core_hod'){
+        this.router.navigate(['core/hod/dashboard'])
+        }
+      },
+      err => console.log(err)
+    )
   }
 
 
